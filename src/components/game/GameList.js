@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom"
 import { GameContext } from "./GameProvider.js"
 
 export const GameList = (props) => {
-    const { games, getGames } = useContext(GameContext)
+    const { games, getGames, deleteGame } = useContext(GameContext)
     const history = useHistory()
 
     useEffect(() => {
@@ -17,10 +17,15 @@ export const GameList = (props) => {
             >Register New Game</button>
             {
                 games.map(game => {
-                    console.log(game)
                     return <section key={`game--${game.id}`} className="game">
                         <div className="game__title"><h2>{game.name}</h2></div>
                         <div className="game__type">type : {game.game_type.name}</div>
+                        <button className="editButton" onClick = {() => {
+                            history.push({ pathname: `/games/edit/${game.id}`})
+                        }}>edit</button>
+                        <button className="delete_button" onClick={()=>{
+                            deleteGame(game.id)
+                        }}>delete</button>
                     </section>
                 })
             }
